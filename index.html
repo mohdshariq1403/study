@@ -363,14 +363,14 @@
             .main-grid { grid-template-columns: 1fr; }
         }
         
-        /* === LEFT COLUMN (Timer + Reports) === */
+        /* === LEFT COLUMN (Add Session + Reports) === */
         .left-column {
             display: flex;
             flex-direction: column;
             gap: 30px;
         }
         
-        /* === RIGHT COLUMN (Stats + Calendar) === */
+        /* === RIGHT COLUMN (Stats + Weekly) === */
         .right-column {
             display: flex;
             flex-direction: column;
@@ -408,31 +408,9 @@
             font-size: 1.3rem;
         }
         
-        /* === TIMER CARD === */
-        .timer-card {
+        /* === ADD SESSION CARD === */
+        .add-session-card {
             border-left: 6px solid var(--accent-purple);
-        }
-        
-        .timer-display {
-            font-size: 4rem;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-            color: var(--accent-purple);
-            margin: 25px 0;
-            text-shadow: 0 3px 15px rgba(139, 92, 246, 0.4);
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-        }
-        
-        .timer-controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 25px 0;
-            flex-wrap: wrap;
         }
         
         /* === BUTTONS === */
@@ -565,7 +543,7 @@
         }
         
         textarea {
-            min-height: 100px;
+            min-height: 80px;
             resize: vertical;
             font-family: inherit;
             line-height: 1.5;
@@ -714,82 +692,36 @@
             background: rgba(139, 92, 246, 0.05);
         }
         
-        /* === CALENDAR === */
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
-        }
-        
-        .calendar-day {
-            aspect-ratio: 1;
-            background: var(--bg-highlight);
-            border-radius: 10px;
-            padding: 8px;
-            font-size: 0.9rem;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-        
-        .calendar-day.empty {
-            background: transparent;
-            visibility: hidden;
-        }
-        
-        .calendar-day.has-study {
-            background: linear-gradient(135deg, var(--accent-purple), #7c3aed);
-            color: white;
-            font-weight: 700;
-        }
-        
-        .calendar-day.today {
-            border-color: var(--accent-orange);
-            background: var(--accent-orange);
-            color: white;
-        }
-        
-        .calendar-day:hover:not(.empty) {
-            transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* === WEEKLY CHART === */
+        /* === WEEKLY CHART (Individual Day Goals) === */
         .weekly-chart {
             margin-top: 20px;
         }
         
-        .chart-bar {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            gap: 15px;
+        .chart-container {
+            margin-bottom: 25px;
         }
         
-        .chart-day {
-            width: 50px;
+        .chart-day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .chart-day-name {
             font-size: 0.9rem;
             color: var(--text-secondary);
             font-weight: 500;
+            width: 60px;
         }
         
         .chart-bar-container {
-            flex: 1;
             height: 25px;
             background: var(--bg-highlight);
             border-radius: 12px;
             overflow: hidden;
             position: relative;
+            margin-bottom: 5px;
         }
         
         .chart-bar-fill {
@@ -798,22 +730,48 @@
             border-radius: 12px;
             transition: width 1s ease-out;
             position: relative;
+            max-width: 100%;
         }
         
-        .chart-bar-fill::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 3s infinite;
+        .chart-bar-fill.goal-met {
+            background: linear-gradient(90deg, var(--accent-green), #10b981);
         }
         
-        .chart-value {
-            width: 60px;
-            font-size: 0.9rem;
+        .chart-bar-fill.goal-partial {
+            background: linear-gradient(90deg, var(--accent-orange), #f59e0b);
+        }
+        
+        .chart-bar-fill.goal-none {
+            background: linear-gradient(90deg, var(--accent-red), #ef4444);
+        }
+        
+        .chart-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            text-align: right;
-            font-weight: 500;
+        }
+        
+        .weekly-summary {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--bg-highlight);
+            border-radius: 12px;
+        }
+        
+        .weekly-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .goal-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+            font-size: 0.9rem;
         }
         
         /* === MONITOR STATUS === */
@@ -968,6 +926,9 @@
             font-weight: 700;
             margin-bottom: 8px;
             font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .notification-message {
@@ -1062,10 +1023,57 @@
             -webkit-text-fill-color: transparent;
         }
         
+        .report-stat-value.danger {
+            background: linear-gradient(135deg, var(--accent-red), #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
         .report-stat-label {
             color: var(--text-secondary);
             font-size: 0.95rem;
             font-weight: 500;
+        }
+        
+        .report-goal-section {
+            background: var(--bg-highlight);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+        
+        .report-goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .goal-progress-bar {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .goal-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 10px;
+            transition: width 1s ease-out;
+        }
+        
+        .goal-progress-fill.success {
+            background: linear-gradient(90deg, var(--accent-green), #10b981);
+        }
+        
+        .goal-progress-fill.warning {
+            background: linear-gradient(90deg, var(--accent-orange), #f59e0b);
+        }
+        
+        .goal-progress-fill.danger {
+            background: linear-gradient(90deg, var(--accent-red), #ef4444);
         }
         
         .report-sessions {
@@ -1147,40 +1155,51 @@
         .small { font-size: 0.9rem; }
         .strong { font-weight: 700; }
         
-        /* === EDIT SESSION MODAL === */
-        .edit-session-options {
-            display: flex;
+        /* === ADD SESSION FORM === */
+        .session-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
-        .edit-option-btn {
-            flex: 1;
-            padding: 20px;
+        @media (max-width: 576px) {
+            .session-form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .quick-add-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-add-btn {
+            padding: 10px 15px;
             background: var(--bg-highlight);
-            border: 2px solid transparent;
-            border-radius: 15px;
-            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s;
-            text-align: center;
         }
         
-        .edit-option-btn:hover {
-            background: rgba(139, 92, 246, 0.1);
-            border-color: var(--accent-purple);
+        .quick-add-btn:hover {
+            background: var(--accent-purple);
+            color: white;
+            transform: translateY(-2px);
         }
         
-        .edit-option-btn.active {
+        /* === GOAL INDICATOR === */
+        .goal-indicator-badge {
             background: rgba(139, 92, 246, 0.2);
-            border-color: var(--accent-purple);
             color: var(--accent-purple);
-        }
-        
-        .edit-option-btn i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            display: block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -1287,6 +1306,81 @@
         </button>
     </div>
 
+    <!-- Set Daily Goal Modal -->
+    <div class="modal" id="setGoalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-bullseye"></i> Set Daily Goal</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select Day</label>
+                    <select id="goalDaySelect">
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Goal Minutes</label>
+                    <input type="number" id="goalMinutesInput" min="15" max="600" value="120">
+                    <small class="text-muted">Set different goals for each day of the week</small>
+                </div>
+                <button class="btn btn-primary btn-block" id="saveGoalBtn">
+                    <i class="fas fa-save"></i> Save Goal
+                </button>
+                <div class="mt-15 text-center text-muted small">
+                    <i class="fas fa-info-circle"></i> Each day can have its own unique goal
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Session Modal -->
+    <div class="modal" id="addSessionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle"></i> Add Study Session</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" id="sessionSubject" placeholder="e.g., Mathematics, Physics, Chemistry...">
+                </div>
+                
+                <div class="session-form-row">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="sessionDate" value="">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration (minutes)</label>
+                        <input type="number" id="sessionDuration" min="1" max="600" placeholder="45">
+                    </div>
+                </div>
+                
+                <div class="quick-add-buttons">
+                    <div class="small text-muted">Quick add:</div>
+                    <button type="button" class="quick-add-btn" data-minutes="30">30 min</button>
+                    <button type="button" class="quick-add-btn" data-minutes="45">45 min</button>
+                    <button type="button" class="quick-add-btn" data-minutes="60">1 hour</button>
+                    <button type="button" class="quick-add-btn" data-minutes="90">1.5 hours</button>
+                    <button type="button" class="quick-add-btn" data-minutes="120">2 hours</button>
+                </div>
+                
+                <button class="btn btn-primary btn-block mt-20" id="saveSessionBtn">
+                    <i class="fas fa-save"></i> Save Session
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Invite Monitor Modal -->
     <div class="modal" id="inviteMonitorModal">
         <div class="modal-content">
@@ -1320,69 +1414,6 @@
         </div>
     </div>
 
-    <!-- Edit Session Modal -->
-    <div class="modal" id="editSessionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Edit Session</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="edit-session-options">
-                    <div class="edit-option-btn active" id="editTimerBtn">
-                        <i class="fas fa-stopwatch"></i>
-                        <div>Fix Timer</div>
-                        <small>Forgot to stop timer</small>
-                    </div>
-                    <div class="edit-option-btn" id="addManualBtn">
-                        <i class="fas fa-plus-circle"></i>
-                        <div>Add Session</div>
-                        <small>Add missed session</small>
-                    </div>
-                </div>
-                
-                <!-- Fix Timer Form -->
-                <div id="fixTimerForm">
-                    <div class="form-group">
-                        <label>Actual Duration (minutes)</label>
-                        <input type="number" id="correctDuration" min="1" max="600" placeholder="Enter actual study time">
-                        <small class="text-muted">Enter how long you actually studied</small>
-                    </div>
-                    <div class="form-group">
-                        <label>Notes (optional)</label>
-                        <textarea id="correctNotes" placeholder="What did you actually study?"></textarea>
-                    </div>
-                    <button class="btn btn-warning btn-block" id="saveFixBtn">
-                        <i class="fas fa-save"></i> Save Corrected Time
-                    </button>
-                </div>
-                
-                <!-- Add Manual Form (hidden by default) -->
-                <div id="addManualForm" style="display: none;">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input type="date" id="manualDate">
-                    </div>
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <input type="text" id="manualSubject" placeholder="e.g., Mathematics">
-                    </div>
-                    <div class="form-group">
-                        <label>Duration (minutes)</label>
-                        <input type="number" id="manualDuration" min="1" max="600" placeholder="45">
-                    </div>
-                    <div class="form-group">
-                        <label>Notes (optional)</label>
-                        <textarea id="manualNotes" placeholder="What did you study?"></textarea>
-                    </div>
-                    <button class="btn btn-primary btn-block" id="saveManualBtn">
-                        <i class="fas fa-plus"></i> Add Session
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Notification Modal -->
     <div class="modal" id="notificationModal">
         <div class="modal-content">
@@ -1390,7 +1421,6 @@
                 <h3><i class="fas fa-bell"></i> Notifications</h3>
                 <div class="notification-actions">
                     <button class="btn btn-secondary btn-small" id="markAllReadBtn">Mark all read</button>
-                    <button class="btn btn-danger btn-small" id="clearNotificationsBtn">Clear all</button>
                     <button class="close-modal">&times;</button>
                 </div>
             </div>
@@ -1452,31 +1482,40 @@
 
         <!-- Main Content -->
         <div class="main-grid">
-            <!-- Left Column: Timer + Reports -->
+            <!-- Left Column: Add Session + Reports -->
             <div class="left-column">
-                <!-- Timer Card -->
-                <div class="card timer-card">
-                    <h2><i class="fas fa-hourglass-half"></i> Study Timer</h2>
-                    <div class="timer-display" id="timerDisplay">00:00:00</div>
-                    <div class="timer-controls">
-                        <button class="btn btn-primary" id="startBtn">
-                            <i class="fas fa-play"></i> Start
-                        </button>
-                        <button class="btn btn-danger" id="stopBtn" disabled>
-                            <i class="fas fa-stop"></i> Stop
-                        </button>
-                        <button class="btn btn-warning" id="editBtn">
-                            <i class="fas fa-edit"></i> Edit Session
-                        </button>
-                    </div>
+                <!-- Add Session Card -->
+                <div class="card add-session-card">
+                    <h2><i class="fas fa-plus-circle"></i> Add Study Session</h2>
+                    
                     <div class="form-group">
-                        <label>Subject (type anything)</label>
-                        <input type="text" id="subjectInput" placeholder="e.g., Calculus, Physics, English...">
+                        <label>Subject</label>
+                        <input type="text" id="quickSubject" placeholder="e.g., Mathematics, Physics, Chemistry...">
                     </div>
-                    <div class="form-group">
-                        <label>Notes (optional)</label>
-                        <textarea id="sessionNotes" placeholder="What are you studying?"></textarea>
+                    
+                    <div class="session-form-row">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="quickDate" value="">
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (minutes)</label>
+                            <input type="number" id="quickDuration" min="1" max="600" placeholder="45">
+                        </div>
                     </div>
+                    
+                    <div class="quick-add-buttons">
+                        <div class="small text-muted">Quick add:</div>
+                        <button type="button" class="quick-add-btn" data-minutes="30">30 min</button>
+                        <button type="button" class="quick-add-btn" data-minutes="45">45 min</button>
+                        <button type="button" class="quick-add-btn" data-minutes="60">1 hour</button>
+                        <button type="button" class="quick-add-btn" data-minutes="90">1.5 hours</button>
+                        <button type="button" class="quick-add-btn" data-minutes="120">2 hours</button>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block mt-20" id="quickAddBtn">
+                        <i class="fas fa-plus"></i> Add Session
+                    </button>
                 </div>
 
                 <!-- Reports Card -->
@@ -1510,18 +1549,17 @@
                                     <th>Time</th>
                                     <th>Subject</th>
                                     <th>Duration</th>
-                                    <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody id="sessionsTable">
-                                <tr><td colspan="4" class="text-center text-muted" style="padding: 40px;">No sessions today</td></tr>
+                                <tr><td colspan="3" class="text-center text-muted" style="padding: 40px;">No sessions today</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Column: Stats + Calendar -->
+            <!-- Right Column: Stats + Weekly Progress -->
             <div class="right-column">
                 <!-- Monitor Status -->
                 <div class="card">
@@ -1565,44 +1603,23 @@
                     
                     <div class="progress-container">
                         <div class="progress-header">
-                            <span>Daily Goal: <span id="goalMinutes" class="strong">120</span> minutes</span>
+                            <span>Today's Goal: <span id="goalMinutes" class="strong">120</span> minutes</span>
                             <button class="btn btn-secondary btn-small" id="editGoalBtn">
-                                <i class="fas fa-edit"></i> Edit
+                                <i class="fas fa-edit"></i> Set Goals
                             </button>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" id="progressBar" style="width: 0%"></div>
                         </div>
+                        <div class="text-center text-muted small mt-10">
+                            <i class="fas fa-info-circle"></i> Set different goals for each day
+                        </div>
                     </div>
                 </div>
 
-                <!-- Calendar -->
+                <!-- Weekly Progress -->
                 <div class="card">
-                    <h2><i class="fas fa-calendar-alt"></i> Study Calendar</h2>
-                    <div class="calendar-header">
-                        <button class="btn btn-secondary btn-small" id="prevMonthBtn">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <h3 id="currentMonth" style="margin: 0;">December 2024</h3>
-                        <button class="btn btn-secondary btn-small" id="nextMonthBtn">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="calendar-grid" id="calendarGrid">
-                        <!-- Calendar will be generated here -->
-                    </div>
-                    <div class="mt-20 text-center">
-                        <span class="small text-muted">
-                            <i class="fas fa-square" style="color: var(--accent-purple);"></i> Days with study
-                            &nbsp;&nbsp;
-                            <i class="fas fa-square" style="color: var(--accent-orange);"></i> Today
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Weekly Summary -->
-                <div class="card">
-                    <h2><i class="fas fa-chart-bar"></i> This Week</h2>
+                    <h2><i class="fas fa-chart-bar"></i> This Week's Progress</h2>
                     <div class="weekly-chart" id="weeklyChart">
                         <div class="text-center text-muted" style="padding: 40px;">Loading weekly data...</div>
                     </div>
@@ -1637,7 +1654,6 @@
             }
 
             setupAuthListeners() {
-                // Handle auth state changes
                 auth.onAuthStateChanged((user) => {
                     if (user) {
                         this.currentUser = user;
@@ -1664,7 +1680,6 @@
                 try {
                     const result = await auth.createUserWithEmailAndPassword(email, password);
                     
-                    // Save user data to database
                     await database.ref('users/' + result.user.uid).set({
                         name: name,
                         email: email,
@@ -1686,7 +1701,6 @@
                     const snapshot = await database.ref('users/' + this.currentUser.uid).once('value');
                     this.userData = snapshot.val();
                     
-                    // Display user email
                     const emailElement = document.getElementById('userEmail');
                     if (emailElement) {
                         emailElement.textContent = this.currentUser.email;
@@ -1752,7 +1766,7 @@
             }
         }
 
-        // ========== FIREBASE DATABASE ==========
+        // ========== FIREBASE DATABASE (WITH DAY-SPECIFIC GOALS) ==========
         class FirebaseDatabase {
             constructor(userId) {
                 this.userId = userId;
@@ -1761,60 +1775,129 @@
                 this.settingsPath = `${this.userPath}/settings`;
                 this.statsPath = `${this.userPath}/stats`;
                 this.notificationsPath = `${this.userPath}/notifications`;
+                this.dailyGoalsPath = `${this.userPath}/dailyGoals`;
             }
 
-            // Sessions
+            // SESSIONS
             async saveSession(session) {
                 session.id = session.id || Date.now().toString();
                 session.userId = this.userId;
+                session.createdAt = new Date().toISOString();
                 
                 await database.ref(`${this.sessionsPath}/${session.id}`).set(session);
                 await this.updateStats();
+                await this.checkDailyGoalNotification();
                 return session.id;
             }
 
             async getTodaySessions() {
                 const today = new Date().toISOString().split('T')[0];
-                const snapshot = await database.ref(this.sessionsPath).orderByChild('date').startAt(today).endAt(today + '\uf8ff').once('value');
-                return this.snapshotToArray(snapshot);
-            }
-
-            async getAllSessions() {
-                const snapshot = await database.ref(this.sessionsPath).once('value');
+                const snapshot = await database.ref(this.sessionsPath)
+                    .orderByChild('date')
+                    .equalTo(today)
+                    .once('value');
                 return this.snapshotToArray(snapshot);
             }
 
             async getSessionsByDate(dateStr) {
-                const snapshot = await database.ref(this.sessionsPath).orderByChild('date').once('value');
-                const allSessions = this.snapshotToArray(snapshot);
-                return allSessions.filter(s => s.date.includes(dateStr));
-            }
-
-            async getWeeklySessions() {
-                const weekAgo = new Date();
-                weekAgo.setDate(weekAgo.getDate() - 7);
-                const weekAgoStr = weekAgo.toISOString().split('T')[0];
-                
-                const snapshot = await database.ref(this.sessionsPath).orderByChild('date').startAt(weekAgoStr).once('value');
+                const snapshot = await database.ref(this.sessionsPath)
+                    .orderByChild('date')
+                    .equalTo(dateStr)
+                    .once('value');
                 return this.snapshotToArray(snapshot);
             }
 
-            // Settings
+            async getWeeklySessions() {
+                const today = new Date();
+                const weekStart = new Date(today);
+                weekStart.setDate(today.getDate() - today.getDay());
+                weekStart.setHours(0, 0, 0, 0);
+                
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 7);
+                
+                const snapshot = await database.ref(this.sessionsPath)
+                    .orderByChild('date')
+                    .once('value');
+                
+                const allSessions = this.snapshotToArray(snapshot);
+                return allSessions.filter(s => {
+                    const sessionDate = new Date(s.date);
+                    return sessionDate >= weekStart && sessionDate < weekEnd;
+                });
+            }
+
+            async getMonthlySessions(year, month) {
+                const snapshot = await database.ref(this.sessionsPath)
+                    .orderByChild('date')
+                    .once('value');
+                
+                const allSessions = this.snapshotToArray(snapshot);
+                return allSessions.filter(s => {
+                    const sessionDate = new Date(s.date);
+                    return sessionDate.getFullYear() === year && sessionDate.getMonth() === month;
+                });
+            }
+
+            async getYearlySessions(year) {
+                const snapshot = await database.ref(this.sessionsPath)
+                    .orderByChild('date')
+                    .once('value');
+                
+                const allSessions = this.snapshotToArray(snapshot);
+                return allSessions.filter(s => {
+                    const sessionDate = new Date(s.date);
+                    return sessionDate.getFullYear() === year;
+                });
+            }
+
+            // DAILY GOALS (Monday 120, Tuesday 60, Wednesday 80, etc.)
+            async getDailyGoals() {
+                const snapshot = await database.ref(this.dailyGoalsPath).once('value');
+                const goals = snapshot.val() || {};
+                
+                // Default goals if none set
+                const defaultGoals = {
+                    monday: 120,
+                    tuesday: 120,
+                    wednesday: 120,
+                    thursday: 120,
+                    friday: 120,
+                    saturday: 120,
+                    sunday: 120
+                };
+                
+                return { ...defaultGoals, ...goals };
+            }
+
+            async saveDailyGoal(day, minutes) {
+                await database.ref(`${this.dailyGoalsPath}/${day}`).set(minutes);
+            }
+
+            async getGoalForDay(dayName) {
+                const goals = await this.getDailyGoals();
+                return goals[dayName.toLowerCase()] || 120;
+            }
+
+            async getGoalForDate(dateStr) {
+                const date = new Date(dateStr);
+                const dayName = date.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+                return await this.getGoalForDay(dayName);
+            }
+
+            async getTotalWeeklyGoal() {
+                const goals = await this.getDailyGoals();
+                const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                return days.reduce((total, day) => total + (goals[day] || 120), 0);
+            }
+
+            // SETTINGS
             async getSettings() {
                 const snapshot = await database.ref(this.settingsPath).once('value');
                 return snapshot.val() || {
-                    dailyGoal: 120,
                     monitor: null,
                     notifications: true
                 };
-            }
-
-            async updateSettings(settings) {
-                await database.ref(this.settingsPath).update(settings);
-            }
-
-            async updateGoal(minutes) {
-                await database.ref(`${this.settingsPath}/dailyGoal`).set(minutes);
             }
 
             async setMonitor(monitorName, monitorCode) {
@@ -1827,7 +1910,7 @@
                 return monitorData;
             }
 
-            // Stats
+            // STATS
             async getStats() {
                 const snapshot = await database.ref(this.statsPath).once('value');
                 return snapshot.val() || {
@@ -1841,24 +1924,8 @@
                 const sessions = await this.getAllSessions();
                 const totalTime = sessions.reduce((sum, s) => sum + (s.duration || 0), 0);
                 
-                // Calculate streak
-                let streak = 0;
-                const today = new Date().toISOString().split('T')[0];
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                const yesterdayStr = yesterday.toISOString().split('T')[0];
-                
-                const hasToday = sessions.some(s => s.date.includes(today));
-                const hasYesterday = sessions.some(s => s.date.includes(yesterdayStr));
-                
-                if (hasToday) {
-                    streak = hasYesterday ? 1 : 0;
-                    // For simplicity, we'll implement more complex streak logic later
-                }
-                
                 const stats = {
                     totalTime: totalTime,
-                    streak: streak,
                     lastUpdate: new Date().toISOString()
                 };
                 
@@ -1866,15 +1933,76 @@
                 return stats;
             }
 
-            // Notifications
+            async getAllSessions() {
+                const snapshot = await database.ref(this.sessionsPath).once('value');
+                return this.snapshotToArray(snapshot);
+            }
+
+            async updateStreak() {
+                const today = new Date().toISOString().split('T')[0];
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayStr = yesterday.toISOString().split('T')[0];
+                
+                const todaySessions = await this.getTodaySessions();
+                const yesterdaySessions = await this.getSessionsByDate(yesterdayStr);
+                
+                const stats = await this.getStats();
+                let streak = stats.streak || 0;
+                
+                if (todaySessions.length > 0) {
+                    if (yesterdaySessions.length > 0) {
+                        streak++;
+                    } else {
+                        streak = 1;
+                    }
+                }
+                
+                await database.ref(`${this.statsPath}/streak`).set(streak);
+                return streak;
+            }
+
+            // NOTIFICATIONS
+            async checkDailyGoalNotification() {
+                const todaySessions = await this.getTodaySessions();
+                const todayGoal = await this.getGoalForDate(new Date().toISOString().split('T')[0]);
+                
+                const totalMinutes = todaySessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                const goalMet = totalMinutes >= todayGoal;
+                const progress = Math.min((totalMinutes / todayGoal) * 100, 100);
+                
+                const lastNotification = await this.getLastNotification('daily');
+                const today = new Date().toISOString().split('T')[0];
+                
+                if (!lastNotification || !lastNotification.date || lastNotification.date !== today) {
+                    await this.saveNotification({
+                        type: 'daily',
+                        title: goalMet ? '🎯 Daily Goal Met!' : '📊 Daily Progress',
+                        message: goalMet 
+                            ? `You completed your daily goal! (${totalMinutes}/${todayGoal} min)`
+                            : `Daily progress: ${totalMinutes}/${todayGoal} min (${Math.round(progress)}%)`,
+                        date: today,
+                        read: false,
+                        important: !goalMet
+                    });
+                }
+            }
+
             async saveNotification(notification) {
                 notification.id = notification.id || Date.now().toString();
+                notification.createdAt = new Date().toISOString();
                 await database.ref(`${this.notificationsPath}/${notification.id}`).set(notification);
             }
 
             async getNotifications() {
                 const snapshot = await database.ref(this.notificationsPath).once('value');
                 return this.snapshotToArray(snapshot) || [];
+            }
+
+            async getLastNotification(type) {
+                const notifications = await this.getNotifications();
+                const typeNotifications = notifications.filter(n => n.type === type);
+                return typeNotifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
             }
 
             async markNotificationAsRead(id) {
@@ -1890,20 +2018,6 @@
                 await database.ref().update(updates);
             }
 
-            // Real-time listeners
-            onSessionsUpdate(callback) {
-                database.ref(this.sessionsPath).on('value', (snapshot) => {
-                    callback(this.snapshotToArray(snapshot));
-                });
-            }
-
-            onSettingsUpdate(callback) {
-                database.ref(this.settingsPath).on('value', (snapshot) => {
-                    callback(snapshot.val());
-                });
-            }
-
-            // Helper method
             snapshotToArray(snapshot) {
                 if (!snapshot.exists()) return [];
                 return Object.entries(snapshot.val()).map(([key, value]) => ({
@@ -1913,18 +2027,18 @@
             }
         }
 
-        // ========== MONITOR SYSTEM WITH FIREBASE ==========
+        // ========== MONITOR SYSTEM ==========
         class StudyMonitor {
             constructor(db, userId, isMonitorView = false) {
                 this.db = db;
                 this.userId = userId;
                 this.isMonitorView = isMonitorView;
-                this.monitorRef = `monitors/${userId}`;
                 this.birthdayChecked = false;
             }
 
             async init() {
                 this.checkBirthday();
+                this.scheduleNotifications();
                 
                 if (this.isMonitorView) {
                     this.setupRealTimeUpdates();
@@ -1932,20 +2046,9 @@
             }
 
             setupRealTimeUpdates() {
-                // Listen for student's sessions in real-time
-                database.ref(`users/${this.userId}/sessions`).on('child_added', (snapshot) => {
-                    const session = snapshot.val();
-                    if (session && !this.isMonitorView) {
-                        this.sendStudySessionNotification(session);
-                    }
-                });
-
-                // Auto-refresh every 30 seconds for monitor
-                if (this.isMonitorView) {
-                    setInterval(() => {
-                        this.refreshMonitorView();
-                    }, 30000);
-                }
+                setInterval(() => {
+                    this.refreshMonitorView();
+                }, 30000);
             }
 
             refreshMonitorView() {
@@ -1977,17 +2080,15 @@
                 }
             }
 
-            // Birthday feature
             checkBirthday() {
                 if (this.birthdayChecked || this.isMonitorView) return;
                 
                 const today = new Date();
-                const birthday = new Date(today.getFullYear(), 6, 17); // July 17
+                const birthday = new Date(today.getFullYear(), 6, 17);
                 
                 if (today.getMonth() === birthday.getMonth() && 
                     today.getDate() === birthday.getDate()) {
                     this.showBirthdayMessage();
-                    this.sendBirthdayNotification();
                     this.birthdayChecked = true;
                 }
             }
@@ -1997,41 +2098,103 @@
                 document.body.style.overflow = 'hidden';
             }
 
-            async sendBirthdayNotification() {
-                const notification = {
-                    id: 'mon_birthday_' + Date.now(),
-                    type: 'special',
-                    title: '🎂 Happy Birthday to YOU!',
-                    message: 'Your student has a special birthday message for you!',
-                    time: new Date().toISOString(),
-                    read: false,
-                    important: true,
-                    special: true
-                };
-
-                await this.db.saveNotification(notification);
-                this.updateBadge();
+            async scheduleNotifications() {
+                this.scheduleWeeklyReport();
+                this.scheduleMonthlyReport();
             }
 
-            async sendStudySessionNotification(session) {
-                if (this.isMonitorView) return;
+            scheduleWeeklyReport() {
+                const now = new Date();
+                const nextSunday = new Date(now);
+                const daysUntilSunday = (7 - now.getDay()) % 7 || 7;
+                nextSunday.setDate(now.getDate() + daysUntilSunday);
+                nextSunday.setHours(20, 0, 0, 0);
                 
-                const notification = {
-                    id: 'study_' + Date.now(),
-                    type: 'study',
-                    title: '📚 Study Session Completed',
-                    message: `Just studied ${session.duration} minutes of ${session.subject}`,
-                    time: new Date().toISOString(),
-                    read: false,
-                    important: true
-                };
+                const timeUntilSunday = nextSunday - now;
+                
+                setTimeout(async () => {
+                    await this.sendWeeklyReport();
+                    this.scheduleWeeklyReport();
+                }, timeUntilSunday);
+            }
 
-                await this.db.saveNotification(notification);
-                this.updateBadge();
+            scheduleMonthlyReport() {
+                const now = new Date();
+                const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 20, 0, 0);
                 
-                if (window.isMonitorViewActive) {
-                    this.showToast(`📚 Studied ${session.duration} min of ${session.subject}`, 'success');
+                const timeUntilNextMonth = nextMonth - now;
+                
+                setTimeout(async () => {
+                    await this.sendMonthlyReport();
+                    this.scheduleMonthlyReport();
+                }, timeUntilNextMonth);
+            }
+
+            async sendWeeklyReport() {
+                const sessions = await this.db.getWeeklySessions();
+                const dailyGoals = await this.db.getDailyGoals();
+                
+                let totalMinutes = 0;
+                let totalGoal = 0;
+                
+                const today = new Date();
+                for (let i = 0; i < 7; i++) {
+                    const dayDate = new Date(today);
+                    dayDate.setDate(today.getDate() - today.getDay() + i);
+                    const dateStr = dayDate.toISOString().split('T')[0];
+                    
+                    const daySessions = sessions.filter(s => s.date === dateStr);
+                    const dayMinutes = daySessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                    totalMinutes += dayMinutes;
+                    
+                    // Get goal for that day of the week
+                    const dayName = dayDate.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+                    const dayGoal = dailyGoals[dayName] || 120;
+                    totalGoal += dayGoal;
                 }
+                
+                await this.db.saveNotification({
+                    type: 'weekly',
+                    title: '📊 Weekly Report Ready',
+                    message: `Weekly total: ${totalMinutes} min | Daily goals total: ${totalGoal} min`,
+                    date: new Date().toISOString().split('T')[0],
+                    read: false,
+                    important: totalMinutes < totalGoal
+                });
+            }
+
+            async sendMonthlyReport() {
+                const now = new Date();
+                const sessions = await this.db.getMonthlySessions(now.getFullYear(), now.getMonth());
+                const dailyGoals = await this.db.getDailyGoals();
+                
+                let totalMinutes = 0;
+                let totalGoal = 0;
+                
+                const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+                
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = new Date(now.getFullYear(), now.getMonth(), day).toISOString().split('T')[0];
+                    
+                    const daySessions = sessions.filter(s => s.date === dateStr);
+                    const dayMinutes = daySessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                    totalMinutes += dayMinutes;
+                    
+                    // Get goal for that day of the week
+                    const dayDate = new Date(now.getFullYear(), now.getMonth(), day);
+                    const dayName = dayDate.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+                    const dayGoal = dailyGoals[dayName] || 120;
+                    totalGoal += dayGoal;
+                }
+                
+                await this.db.saveNotification({
+                    type: 'monthly',
+                    title: '📈 Monthly Report Ready',
+                    message: `Monthly total: ${totalMinutes} min | Daily goals total: ${totalGoal} min`,
+                    date: new Date().toISOString().split('T')[0],
+                    read: false,
+                    important: totalMinutes < totalGoal
+                });
             }
 
             async getUnreadCount() {
@@ -2073,16 +2236,18 @@
                             </div>
                         `;
                     } else {
-                        notificationList.innerHTML = notifications.map(notification => `
-                            <div class="notification-item ${notification.read ? '' : 'unread'} ${notification.important ? 'important' : ''} ${notification.special ? 'special' : ''}" 
-                                 data-id="${notification.id}" onclick="studyTracker.monitor.markAsRead('${notification.id}')">
+                        notificationList.innerHTML = notifications.sort((a, b) => 
+                            new Date(b.createdAt) - new Date(a.createdAt)
+                        ).map(notification => `
+                            <div class="notification-item ${notification.read ? '' : 'unread'} ${notification.important ? 'important' : ''}" 
+                                 data-id="${notification.id}" onclick="studyTracker.markNotificationAsRead('${notification.id}')">
                                 <div class="notification-icon">
                                     <i class="fas fa-${this.getNotificationIcon(notification.type)}"></i>
                                 </div>
                                 <div class="notification-content">
                                     <div class="notification-title">${notification.title}</div>
                                     <div class="notification-message">${notification.message}</div>
-                                    <div class="notification-time">${this.formatTime(notification.time)}</div>
+                                    <div class="notification-time">${this.formatTime(notification.createdAt)}</div>
                                 </div>
                                 ${!notification.read ? '<div class="notification-dot"></div>' : ''}
                             </div>
@@ -2100,11 +2265,6 @@
 
             async markAllAsRead() {
                 await this.db.markAllNotificationsAsRead();
-                this.loadNotifications();
-            }
-
-            async clearNotifications() {
-                // Implement if needed
                 this.loadNotifications();
             }
 
@@ -2151,73 +2311,7 @@
             }
         }
 
-        // ========== CALENDAR ==========
-        class StudyCalendar {
-            constructor(db) {
-                this.db = db;
-                this.currentDate = new Date();
-            }
-            
-            async render() {
-                const calendarGrid = document.getElementById('calendarGrid');
-                if (!calendarGrid) return;
-                
-                calendarGrid.innerHTML = '';
-                
-                const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-                days.forEach(day => {
-                    const dayEl = document.createElement('div');
-                    dayEl.className = 'calendar-day text-center text-muted';
-                    dayEl.textContent = day;
-                    calendarGrid.appendChild(dayEl);
-                });
-                
-                const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
-                const lastDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
-                
-                for (let i = 0; i < firstDay.getDay(); i++) {
-                    const empty = document.createElement('div');
-                    empty.className = 'calendar-day empty';
-                    calendarGrid.appendChild(empty);
-                }
-                
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                
-                for (let day = 1; day <= lastDay.getDate(); day++) {
-                    const dayDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
-                    const dateStr = dayDate.toISOString().split('T')[0];
-                    const sessions = await this.db.getSessionsByDate(dateStr);
-                    const hasStudy = sessions.length > 0;
-                    const isToday = dayDate.getTime() === today.getTime();
-                    
-                    const dayEl = document.createElement('div');
-                    dayEl.className = 'calendar-day text-center';
-                    if (hasStudy) dayEl.classList.add('has-study');
-                    if (isToday) dayEl.classList.add('today');
-                    
-                    dayEl.textContent = day;
-                    calendarGrid.appendChild(dayEl);
-                }
-                
-                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                                  'July', 'August', 'September', 'October', 'November', 'December'];
-                document.getElementById('currentMonth').textContent = 
-                    `${monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
-            }
-            
-            prevMonth() {
-                this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-                this.render();
-            }
-            
-            nextMonth() {
-                this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-                this.render();
-            }
-        }
-
-        // ========== WEEKLY CHART ==========
+        // ========== WEEKLY CHART (Individual Day Goals) ==========
         class WeeklyChart {
             constructor(db) {
                 this.db = db;
@@ -2228,37 +2322,79 @@
                 if (!container) return;
                 
                 const sessions = await this.db.getWeeklySessions();
+                const dailyGoals = await this.db.getDailyGoals();
                 
-                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                const dayData = {};
-                days.forEach(day => dayData[day] = 0);
-                
-                sessions.forEach(session => {
-                    const date = new Date(session.date);
-                    const dayName = days[date.getDay()];
-                    dayData[dayName] += session.duration || 0;
-                });
-                
-                const maxMinutes = Math.max(...Object.values(dayData), 60);
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                const today = new Date();
+                const currentDay = today.getDay();
                 
                 let html = '<div class="weekly-chart">';
+                let weekTotalMinutes = 0;
+                let weekTotalGoal = 0;
                 
-                days.forEach(day => {
-                    const minutes = dayData[day];
-                    const percentage = maxMinutes > 0 ? (minutes / maxMinutes * 100) : 0;
-                    const today = new Date();
-                    const isToday = day === days[today.getDay()];
+                for (let i = 0; i < 7; i++) {
+                    const dayDate = new Date(today);
+                    dayDate.setDate(today.getDate() - currentDay + i);
+                    const dateStr = dayDate.toISOString().split('T')[0];
+                    const daySessions = sessions.filter(s => s.date === dateStr);
+                    const totalMinutes = daySessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                    
+                    // Get goal for this specific day of the week
+                    const dayName = days[i].toLowerCase();
+                    const dayGoal = dailyGoals[dayName] || 120;
+                    
+                    const goalPercentage = dayGoal > 0 ? Math.min((totalMinutes / dayGoal) * 100, 100) : 0;
+                    const isToday = i === currentDay;
+                    
+                    weekTotalMinutes += totalMinutes;
+                    weekTotalGoal += dayGoal;
+                    
+                    let fillClass = 'goal-none';
+                    if (goalPercentage >= 100) {
+                        fillClass = 'goal-met';
+                    } else if (goalPercentage > 0) {
+                        fillClass = 'goal-partial';
+                    }
                     
                     html += `
-                        <div class="chart-bar">
-                            <div class="chart-day" style="color: ${isToday ? 'var(--accent-orange)' : 'var(--text-secondary)'}">${day}</div>
-                            <div class="chart-bar-container">
-                                <div class="chart-bar-fill" style="width: ${percentage}%"></div>
+                        <div class="chart-container">
+                            <div class="chart-day-header">
+                                <div class="chart-day-name" style="color: ${isToday ? 'var(--accent-orange)' : 'var(--text-secondary)'}">
+                                    ${days[i].substring(0, 3)}
+                                </div>
+                                <div class="small" style="color: ${isToday ? 'var(--accent-orange)' : 'var(--text-secondary)'}">
+                                    ${totalMinutes}/${dayGoal} min
+                                </div>
                             </div>
-                            <div class="chart-value">${minutes > 0 ? Math.round(minutes) + 'm' : '0m'}</div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill ${fillClass}" style="width: ${goalPercentage}%"></div>
+                            </div>
+                            <div class="chart-info">
+                                <div>${dateStr}</div>
+                                <div>${Math.round(goalPercentage)}% of goal</div>
+                            </div>
                         </div>
                     `;
-                });
+                }
+                
+                // Weekly summary (no weekly goal percentage, just totals)
+                html += `
+                    <div class="weekly-summary">
+                        <div class="weekly-total">
+                            <div>
+                                <strong>Week Total:</strong>
+                                <div class="small text-muted">Study time vs Daily goals total</div>
+                            </div>
+                            <div>
+                                <strong>${weekTotalMinutes}/${weekTotalGoal} min</strong>
+                            </div>
+                        </div>
+                        <div class="goal-indicator">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="text-muted">Each day has its own goal (Monday ${dailyGoals.monday} min, Tuesday ${dailyGoals.tuesday} min, etc.)</span>
+                        </div>
+                    </div>
+                `;
                 
                 html += '</div>';
                 container.innerHTML = html;
@@ -2272,13 +2408,7 @@
                 this.userId = null;
                 this.db = null;
                 this.monitor = null;
-                this.calendar = null;
                 this.weeklyChart = null;
-                
-                this.timerInterval = null;
-                this.startTime = null;
-                this.isRunning = false;
-                this.currentSession = null;
                 
                 this.init();
             }
@@ -2286,44 +2416,33 @@
             init() {
                 this.setupEventListeners();
                 
-                // Check if this is monitor view
                 const urlParams = new URLSearchParams(window.location.search);
                 this.isMonitorView = urlParams.has('monitor');
                 window.isMonitorViewActive = this.isMonitorView;
                 
-                // Close birthday message button
                 document.getElementById('closeBirthdayBtn').onclick = () => {
                     document.getElementById('birthdayOverlay').style.display = 'none';
                     document.body.style.overflow = 'auto';
                 };
+                
+                // Set today's date as default
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('quickDate').value = today;
             }
             
             async initializeApp(userId) {
                 this.userId = userId;
                 this.db = new FirebaseDatabase(userId);
                 this.monitor = new StudyMonitor(this.db, userId, this.isMonitorView);
-                this.calendar = new StudyCalendar(this.db);
                 this.weeklyChart = new WeeklyChart(this.db);
                 
                 await this.monitor.init();
                 await this.loadData();
-                await this.calendar.render();
                 await this.weeklyChart.render();
                 
                 if (this.isMonitorView) {
                     this.showMonitorView();
                 }
-                
-                // Setup real-time listeners
-                this.db.onSessionsUpdate(() => {
-                    this.loadData();
-                    this.calendar.render();
-                    this.weeklyChart.render();
-                });
-                
-                this.db.onSettingsUpdate((settings) => {
-                    this.updateSettingsUI(settings);
-                });
             }
             
             showMonitorView() {
@@ -2342,11 +2461,10 @@
                 document.querySelector('.header h1').innerHTML = '<i class="fas fa-eye"></i> Monitor View';
                 document.querySelector('.header p').textContent = 'Tracking Student Study Progress';
                 
-                document.getElementById('startBtn').disabled = true;
-                document.getElementById('stopBtn').disabled = true;
-                document.getElementById('editBtn').disabled = true;
-                document.getElementById('subjectInput').disabled = true;
-                document.getElementById('sessionNotes').disabled = true;
+                document.getElementById('quickAddBtn').disabled = true;
+                document.getElementById('quickSubject').disabled = true;
+                document.getElementById('quickDate').disabled = true;
+                document.getElementById('quickDuration').disabled = true;
                 document.getElementById('editGoalBtn').disabled = true;
                 document.getElementById('inviteMonitorBtn').style.display = 'none';
                 
@@ -2403,49 +2521,25 @@
                 
                 document.getElementById('logoutBtn').onclick = () => this.authManager.logout();
                 
-                // Timer
-                document.getElementById('startBtn').onclick = () => this.startTimer();
-                document.getElementById('stopBtn').onclick = () => this.stopTimer();
-                document.getElementById('editBtn').onclick = () => this.showEditModal();
+                // Quick add session
+                document.getElementById('quickAddBtn').onclick = () => this.addQuickSession();
                 
-                // Edit modal
-                document.getElementById('editTimerBtn').onclick = () => {
-                    document.getElementById('editTimerBtn').classList.add('active');
-                    document.getElementById('addManualBtn').classList.remove('active');
-                    document.getElementById('fixTimerForm').style.display = 'block';
-                    document.getElementById('addManualForm').style.display = 'none';
-                };
+                // Quick add buttons
+                document.querySelectorAll('.quick-add-btn').forEach(btn => {
+                    btn.onclick = () => {
+                        document.getElementById('quickDuration').value = btn.getAttribute('data-minutes');
+                    };
+                });
                 
-                document.getElementById('addManualBtn').onclick = () => {
-                    document.getElementById('addManualBtn').classList.add('active');
-                    document.getElementById('editTimerBtn').classList.remove('active');
-                    document.getElementById('addManualForm').style.display = 'block';
-                    document.getElementById('fixTimerForm').style.display = 'none';
-                    document.getElementById('manualDate').value = new Date().toISOString().split('T')[0];
-                };
-                
-                // Edit session forms
-                document.getElementById('saveFixBtn').onclick = () => this.saveFixedTimer();
-                document.getElementById('saveManualBtn').onclick = () => this.saveManualSession();
+                // Goal
+                document.getElementById('editGoalBtn').onclick = () => this.showSetGoalModal();
+                document.getElementById('saveGoalBtn').onclick = () => this.saveDailyGoal();
                 
                 // Monitor
                 document.getElementById('inviteMonitorBtn').onclick = () => this.showMonitorModal();
                 document.getElementById('saveMonitorBtn').onclick = () => this.saveMonitor();
                 document.getElementById('copyLinkBtn').onclick = () => this.copyMonitorLink();
                 document.getElementById('sendEmailBtn').onclick = () => this.sendMonitorEmail();
-                
-                // Goal
-                document.getElementById('editGoalBtn').onclick = () => this.editGoal();
-                
-                // Calendar
-                document.getElementById('prevMonthBtn').onclick = () => {
-                    this.calendar.prevMonth();
-                    this.weeklyChart.render();
-                };
-                document.getElementById('nextMonthBtn').onclick = () => {
-                    this.calendar.nextMonth();
-                    this.weeklyChart.render();
-                };
                 
                 // Notifications
                 const notificationBtn = this.isMonitorView ? document.getElementById('monitorNotificationBtn') : document.getElementById('notificationBtn');
@@ -2455,18 +2549,12 @@
                     this.monitor.markAllAsRead();
                 };
                 
-                document.getElementById('clearNotificationsBtn').onclick = () => {
-                    if (confirm('Clear all notifications?')) {
-                        // Implementation for clearing notifications
-                        this.monitor.loadNotifications();
-                    }
-                };
-                
-                // Reports (simplified for now)
+                // Reports
                 document.getElementById('dailyReportBtn').onclick = () => this.generateReport('daily');
                 document.getElementById('weeklyReportBtn').onclick = () => this.generateReport('weekly');
                 document.getElementById('monthlyReportBtn').onclick = () => this.generateReport('monthly');
                 document.getElementById('yearlyReportBtn').onclick = () => this.generateReport('yearly');
+                document.getElementById('exportReportBtn').onclick = () => this.exportReport();
                 
                 // Modal close
                 document.querySelectorAll('.close-modal').forEach(btn => {
@@ -2482,151 +2570,81 @@
                 });
             }
             
-            async startTimer() {
-                if (this.isRunning) return;
+            async addQuickSession() {
+                const subject = document.getElementById('quickSubject').value.trim();
+                const date = document.getElementById('quickDate').value;
+                let duration = parseInt(document.getElementById('quickDuration').value);
                 
-                const subject = document.getElementById('subjectInput').value.trim();
                 if (!subject) {
                     this.showToast('Please enter a subject', 'error');
                     return;
                 }
-                
-                this.isRunning = true;
-                this.startTime = new Date();
-                this.currentSession = {
-                    subject: subject,
-                    notes: document.getElementById('sessionNotes').value.trim()
-                };
-                
-                document.getElementById('startBtn').disabled = true;
-                document.getElementById('stopBtn').disabled = false;
-                document.getElementById('startBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Studying...';
-                
-                this.timerInterval = setInterval(() => this.updateTimer(), 1000);
-                this.showToast('Started studying ' + subject, 'success');
-            }
-            
-            async stopTimer() {
-                if (!this.isRunning) return;
-                
-                clearInterval(this.timerInterval);
-                const endTime = new Date();
-                const duration = Math.round((endTime - this.startTime) / 1000 / 60);
-                
-                const session = {
-                    date: this.startTime.toISOString().split('T')[0],
-                    startTime: this.startTime.toISOString(),
-                    duration: duration,
-                    subject: this.currentSession.subject,
-                    notes: this.currentSession.notes,
-                    endTime: endTime.toISOString()
-                };
-                
-                await this.db.saveSession(session);
-                
-                this.isRunning = false;
-                this.startTime = null;
-                this.currentSession = null;
-                document.getElementById('startBtn').disabled = false;
-                document.getElementById('stopBtn').disabled = true;
-                document.getElementById('startBtn').innerHTML = '<i class="fas fa-play"></i> Start';
-                document.getElementById('timerDisplay').textContent = '00:00:00';
-                document.getElementById('sessionNotes').value = '';
-                
-                this.showToast(`Studied ${duration} minutes`, 'success');
-            }
-            
-            updateTimer() {
-                if (!this.startTime) return;
-                
-                const now = new Date();
-                const diff = Math.floor((now - this.startTime) / 1000);
-                
-                const hours = Math.floor(diff / 3600);
-                const minutes = Math.floor((diff % 3600) / 60);
-                const seconds = diff % 60;
-                
-                document.getElementById('timerDisplay').textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-            
-            showEditModal() {
-                const modal = document.getElementById('editSessionModal');
-                document.getElementById('correctDuration').value = '';
-                document.getElementById('correctNotes').value = '';
-                document.getElementById('manualDate').value = new Date().toISOString().split('T')[0];
-                document.getElementById('manualSubject').value = '';
-                document.getElementById('manualDuration').value = '';
-                document.getElementById('manualNotes').value = '';
-                
-                document.getElementById('editTimerBtn').classList.add('active');
-                document.getElementById('addManualBtn').classList.remove('active');
-                document.getElementById('fixTimerForm').style.display = 'block';
-                document.getElementById('addManualForm').style.display = 'none';
-                
-                modal.style.display = 'flex';
-            }
-            
-            async saveFixedTimer() {
-                const duration = parseInt(document.getElementById('correctDuration').value);
-                const notes = document.getElementById('correctNotes').value.trim();
                 
                 if (!duration || duration < 1 || duration > 600) {
                     this.showToast('Please enter valid duration (1-600 minutes)', 'error');
                     return;
                 }
                 
-                if (this.isRunning) {
-                    clearInterval(this.timerInterval);
-                    this.isRunning = false;
-                }
-                
-                const session = {
-                    date: new Date().toISOString().split('T')[0],
-                    duration: duration,
-                    subject: this.currentSession?.subject || 'Corrected Session',
-                    notes: notes || 'Timer fixed - actual time entered',
-                    corrected: true,
-                    manual: true
-                };
-                
-                await this.db.saveSession(session);
-                document.getElementById('editSessionModal').style.display = 'none';
-                
-                this.startTime = null;
-                this.currentSession = null;
-                document.getElementById('startBtn').disabled = false;
-                document.getElementById('stopBtn').disabled = true;
-                document.getElementById('startBtn').innerHTML = '<i class="fas fa-play"></i> Start';
-                document.getElementById('timerDisplay').textContent = '00:00:00';
-                document.getElementById('sessionNotes').value = '';
-                
-                this.showToast(`Saved corrected time: ${duration} minutes`, 'success');
-            }
-            
-            async saveManualSession() {
-                const date = document.getElementById('manualDate').value;
-                const subject = document.getElementById('manualSubject').value.trim();
-                const duration = parseInt(document.getElementById('manualDuration').value);
-                const notes = document.getElementById('manualNotes').value.trim();
-                
-                if (!subject || !duration || duration < 1 || duration > 600) {
-                    this.showToast('Please fill subject and valid duration', 'error');
-                    return;
-                }
-                
                 const session = {
                     date: date,
                     duration: duration,
-                    subject: subject,
-                    notes: notes,
-                    manual: true
+                    subject: subject
                 };
                 
                 await this.db.saveSession(session);
-                document.getElementById('editSessionModal').style.display = 'none';
                 
-                this.showToast(`Added ${duration} minute session`, 'success');
+                // Clear form
+                document.getElementById('quickSubject').value = '';
+                document.getElementById('quickDuration').value = '';
+                
+                await this.loadData();
+                await this.weeklyChart.render();
+                
+                this.showToast(`Added ${duration} minute session for ${subject}`, 'success');
+            }
+            
+            async showSetGoalModal() {
+                const modal = document.getElementById('setGoalModal');
+                const dailyGoals = await this.db.getDailyGoals();
+                
+                // Load current goal for selected day
+                const updateGoalDisplay = () => {
+                    const selectedDay = document.getElementById('goalDaySelect').value;
+                    document.getElementById('goalMinutesInput').value = dailyGoals[selectedDay] || 120;
+                };
+                
+                document.getElementById('goalDaySelect').onchange = updateGoalDisplay;
+                updateGoalDisplay();
+                
+                modal.style.display = 'flex';
+            }
+            
+            async saveDailyGoal() {
+                const day = document.getElementById('goalDaySelect').value;
+                const minutes = parseInt(document.getElementById('goalMinutesInput').value);
+                
+                if (!minutes || minutes < 15 || minutes > 600) {
+                    this.showToast('Goal must be 15-600 minutes', 'error');
+                    return;
+                }
+                
+                await this.db.saveDailyGoal(day, minutes);
+                document.getElementById('setGoalModal').style.display = 'none';
+                
+                await this.loadData();
+                await this.weeklyChart.render();
+                
+                const dayNames = {
+                    monday: 'Monday',
+                    tuesday: 'Tuesday',
+                    wednesday: 'Wednesday',
+                    thursday: 'Thursday',
+                    friday: 'Friday',
+                    saturday: 'Saturday',
+                    sunday: 'Sunday'
+                };
+                
+                this.showToast(`${dayNames[day]} goal set to ${minutes} minutes`, 'success');
             }
             
             async showMonitorModal() {
@@ -2696,31 +2714,15 @@ Study Tracker
                 this.showToast('Email opened with link! Just hit send.', 'success');
             }
             
-            async editGoal() {
-                const settings = await this.db.getSettings();
-                const newGoal = prompt('Daily study goal (minutes):', settings.dailyGoal || 120);
-                
-                if (!newGoal || isNaN(newGoal)) return;
-                
-                const minutes = parseInt(newGoal);
-                if (minutes < 15 || minutes > 600) {
-                    this.showToast('Goal must be 15-600 minutes', 'error');
-                    return;
-                }
-                
-                await this.db.updateGoal(minutes);
-                this.loadData();
-                this.showToast(`Goal updated to ${minutes} minutes`, 'success');
-            }
-            
             async loadData() {
                 const todaySessions = await this.db.getTodaySessions();
-                const settings = await this.db.getSettings();
+                const today = new Date().toISOString().split('T')[0];
+                const todayGoal = await this.db.getGoalForDate(today);
                 const stats = await this.db.getStats();
+                const streak = await this.db.updateStreak();
                 
                 const totalMinutes = todaySessions.reduce((sum, s) => sum + (s.duration || 0), 0);
-                const goal = settings.dailyGoal || 120;
-                const progress = goal > 0 ? Math.min((totalMinutes / goal) * 100, 100) : 0;
+                const progress = todayGoal > 0 ? Math.min((totalMinutes / todayGoal) * 100, 100) : 0;
                 
                 document.getElementById('studyTime').textContent = 
                     totalMinutes >= 60 ? 
@@ -2728,12 +2730,13 @@ Study Tracker
                     `${totalMinutes}m`;
                 document.getElementById('sessionsCount').textContent = todaySessions.length;
                 document.getElementById('goalProgress').textContent = `${Math.round(progress)}%`;
-                document.getElementById('streak').textContent = stats.streak || 0;
-                document.getElementById('goalMinutes').textContent = goal;
+                document.getElementById('streak').textContent = streak;
+                document.getElementById('goalMinutes').textContent = todayGoal;
                 document.getElementById('progressBar').style.width = `${progress}%`;
                 
                 // Update monitor status
                 const monitorStatus = document.getElementById('monitorStatus');
+                const settings = await this.db.getSettings();
                 if (settings.monitor) {
                     monitorStatus.className = 'monitor-status active';
                     monitorStatus.innerHTML = `
@@ -2758,31 +2761,26 @@ Study Tracker
                 const sessionsTable = document.getElementById('sessionsTable');
                 if (todaySessions.length === 0) {
                     sessionsTable.innerHTML = `
-                        <tr><td colspan="4" class="text-center text-muted" style="padding: 40px;">No sessions today</td></tr>
+                        <tr><td colspan="3" class="text-center text-muted" style="padding: 40px;">No sessions today</td></tr>
                     `;
                 } else {
                     sessionsTable.innerHTML = '';
                     todaySessions.forEach(session => {
                         const row = document.createElement('tr');
-                        const date = new Date(session.startTime || session.date);
+                        const date = new Date(session.createdAt || session.date);
                         const duration = Math.round(session.duration);
-                        const isManual = session.manual ? ' (manual)' : '';
-                        const isCorrected = session.corrected ? ' (corrected)' : '';
                         
                         row.innerHTML = `
-                            <td>${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}${isManual}${isCorrected}</td>
+                            <td>${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
                             <td>${session.subject}</td>
                             <td><span class="strong">${duration}m</span></td>
-                            <td><span class="text-muted">${session.notes || '-'}</span></td>
                         `;
                         sessionsTable.appendChild(row);
                     });
                 }
-            }
-            
-            updateSettingsUI(settings) {
-                const goal = settings.dailyGoal || 120;
-                document.getElementById('goalMinutes').textContent = goal;
+                
+                // Update notifications badge
+                this.monitor.updateBadge();
             }
             
             async showNotifications() {
@@ -2790,70 +2788,172 @@ Study Tracker
                 document.getElementById('notificationModal').style.display = 'flex';
             }
             
+            async markNotificationAsRead(id) {
+                await this.monitor.markAsRead(id);
+            }
+            
             async generateReport(period) {
-                // Simplified report generation
-                const sessions = await this.db.getAllSessions();
-                let filteredSessions = [];
+                const now = new Date();
+                let sessions = [];
+                let totalMinutes = 0;
+                let totalGoal = 0;
+                let title = '';
+                let dateRange = '';
+                
+                const dailyGoals = await this.db.getDailyGoals();
                 
                 switch(period) {
                     case 'daily':
-                        filteredSessions = sessions.filter(s => s.date === new Date().toISOString().split('T')[0]);
+                        title = 'Daily Study Report';
+                        const today = now.toISOString().split('T')[0];
+                        sessions = await this.db.getSessionsByDate(today);
+                        totalMinutes = sessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                        totalGoal = await this.db.getGoalForDate(today);
+                        dateRange = today;
                         break;
+                        
                     case 'weekly':
-                        const weekAgo = new Date();
-                        weekAgo.setDate(weekAgo.getDate() - 7);
-                        filteredSessions = sessions.filter(s => new Date(s.date) >= weekAgo);
+                        title = 'Weekly Study Report';
+                        sessions = await this.db.getWeeklySessions();
+                        totalMinutes = sessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                        
+                        // Calculate total goal for the week (sum of daily goals)
+                        const weekStart = new Date(now);
+                        weekStart.setDate(now.getDate() - now.getDay());
+                        weekStart.setHours(0, 0, 0, 0);
+                        
+                        for (let i = 0; i < 7; i++) {
+                            const dayDate = new Date(weekStart);
+                            dayDate.setDate(weekStart.getDate() + i);
+                            const dayName = dayDate.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+                            totalGoal += dailyGoals[dayName] || 120;
+                        }
+                        
+                        const weekEnd = new Date(weekStart);
+                        weekEnd.setDate(weekStart.getDate() + 6);
+                        dateRange = `${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}`;
                         break;
-                    // Add more cases as needed
+                        
+                    case 'monthly':
+                        title = 'Monthly Study Report';
+                        sessions = await this.db.getMonthlySessions(now.getFullYear(), now.getMonth());
+                        totalMinutes = sessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                        
+                        // Calculate total goal for the month (sum of daily goals for each day)
+                        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            const dayDate = new Date(now.getFullYear(), now.getMonth(), day);
+                            const dayName = dayDate.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+                            totalGoal += dailyGoals[dayName] || 120;
+                        }
+                        
+                        dateRange = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                        break;
+                        
+                    case 'yearly':
+                        title = 'Yearly Study Report';
+                        sessions = await this.db.getYearlySessions(now.getFullYear());
+                        totalMinutes = sessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+                        
+                        // Calculate total goal for the year (estimate based on average daily goals)
+                        const avgDailyGoal = Object.values(dailyGoals).reduce((a, b) => a + b, 0) / 7;
+                        totalGoal = Math.round(avgDailyGoal * 365);
+                        dateRange = now.getFullYear().toString();
+                        break;
                 }
                 
-                const totalMinutes = filteredSessions.reduce((sum, s) => sum + (s.duration || 0), 0);
-                
                 const modal = document.getElementById('reportModal');
-                document.getElementById('reportTitle').textContent = `${period.charAt(0).toUpperCase() + period.slice(1)} Report`;
-                document.getElementById('reportDate').textContent = `Generated: ${new Date().toLocaleString()}`;
+                document.getElementById('reportTitle').textContent = title;
+                document.getElementById('reportDate').textContent = `Generated: ${new Date().toLocaleString()} | Period: ${dateRange}`;
                 
                 document.getElementById('reportContent').innerHTML = `
                     <div class="report-summary">
                         <div class="report-stats-grid">
                             <div class="report-stat">
                                 <div class="report-stat-value">${totalMinutes}</div>
-                                <div class="report-stat-label">Total Minutes</div>
+                                <div class="report-stat-label">Total Study Time</div>
                             </div>
                             <div class="report-stat">
-                                <div class="report-stat-value">${filteredSessions.length}</div>
+                                <div class="report-stat-value">${sessions.length}</div>
                                 <div class="report-stat-label">Sessions</div>
+                            </div>
+                            <div class="report-stat">
+                                <div class="report-stat-value">${totalGoal}</div>
+                                <div class="report-stat-label">Total Goals</div>
+                            </div>
+                            <div class="report-stat">
+                                <div class="report-stat-value ${totalMinutes >= totalGoal ? 'success' : 'warning'}">
+                                    ${totalMinutes >= totalGoal ? '✓' : '✗'}
+                                </div>
+                                <div class="report-stat-label">Goals Met</div>
                             </div>
                         </div>
                     </div>
-                    <div class="report-sessions">
-                        <h4><i class="fas fa-list"></i> Sessions</h4>
-                        <div style="overflow-x: auto;">
-                            <table class="sessions-table">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Subject</th>
-                                        <th>Duration</th>
-                                        <th>Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${filteredSessions.map(session => `
-                                        <tr>
-                                            <td>${new Date(session.date).toLocaleDateString()}</td>
-                                            <td>${session.subject}</td>
-                                            <td>${session.duration} min</td>
-                                            <td>${session.notes || '-'}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
+                    
+                    <div class="report-goal-section">
+                        <div class="report-goal-header">
+                            <div>
+                                <strong>Study Time vs Daily Goals Total</strong><br>
+                                <small class="text-muted">Each day has its own goal (Mon: ${dailyGoals.monday}, Tue: ${dailyGoals.tuesday}, Wed: ${dailyGoals.wednesday}, etc.)</small>
+                            </div>
+                            <div style="font-weight: 700; font-size: 1.2rem;">
+                                ${totalMinutes}/${totalGoal} min
+                            </div>
+                        </div>
+                        <div class="goal-indicator mt-15">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="text-muted">Daily goals: Monday ${dailyGoals.monday}min, Tuesday ${dailyGoals.tuesday}min, Wednesday ${dailyGoals.wednesday}min, Thursday ${dailyGoals.thursday}min, Friday ${dailyGoals.friday}min, Saturday ${dailyGoals.saturday}min, Sunday ${dailyGoals.sunday}min</span>
                         </div>
                     </div>
+                    
+                    ${sessions.length > 0 ? `
+                        <div class="report-sessions">
+                            <h4><i class="fas fa-list"></i> Sessions (${sessions.length})</h4>
+                            <div style="overflow-x: auto;">
+                                <table class="sessions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Subject</th>
+                                            <th>Duration</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${sessions.map(session => `
+                                            <tr>
+                                                <td>${new Date(session.date).toLocaleDateString()}</td>
+                                                <td>${session.subject}</td>
+                                                <td>${session.duration} min</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    ` : `
+                        <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                            <p>No sessions found for this period</p>
+                        </div>
+                    `}
                 `;
                 
                 modal.style.display = 'flex';
+            }
+            
+            exportReport() {
+                const reportTitle = document.getElementById('reportTitle').textContent;
+                const reportContent = document.getElementById('reportContent').innerText;
+                
+                const blob = new Blob([`${reportTitle}\n\n${reportContent}`], {type: 'text/plain'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${reportTitle.toLowerCase().replace(/ /g, '-')}-${new Date().toISOString().split('T')[0]}.txt`;
+                a.click();
+                
+                URL.revokeObjectURL(url);
+                this.showToast('Report exported!', 'success');
             }
             
             showToast(message, type = 'info') {
@@ -2866,7 +2966,6 @@ Study Tracker
         window.addEventListener('DOMContentLoaded', () => {
             studyTracker = new StudyTracker();
             
-            // Listen for auth state changes
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     await studyTracker.initializeApp(user.uid);
